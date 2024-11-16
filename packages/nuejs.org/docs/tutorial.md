@@ -30,7 +30,7 @@ Nue allows flexible organization through a **freeform directory structure**: you
   * `contact`: contact app
   * `img`: images and icons
   * `index.md`: front page content
-  * `site.yaml`: global settings
+  * `site.yaml` (or `nue.yaml`): global settings
 
 Let’s explore these assets, starting with the content.
 

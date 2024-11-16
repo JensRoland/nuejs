@@ -12,7 +12,7 @@ In Nue, there are two main types of configuration: **settings** and **metadata**
 
 ## System Settings
 
-Here are all framework-specific configuration options found in the `site.yaml` file. These settings impact system behavior and are always global, meaning they cannot be overridden at the app or page level.
+Here are all framework-specific configuration options found in the `site.yaml` (or alternatively, `nue.yaml`) file. These settings impact system behavior and are always global, meaning they cannot be overridden at the app or page level.
 
 ### dist
 
@@ -181,7 +181,7 @@ A setting that prevents the page from being included in content collections. Thi
 
 Data in Nue is defined at three levels:
 
-1. **Global Level:** Site-wide data is defined in `site.yaml` at the root directory. This data applies universally across the entire site.
+1. **Global Level:** Site-wide data is defined in `site.yaml` (or `nue.yaml`) at the root directory. This data applies universally across the entire site.
 
 2. **Application Level:** Application-specific data is defined in `*.yaml` files located inside the application directory. Each application subdirectory can also have its own data files, allowing for tailored configurations.
 
