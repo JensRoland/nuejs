@@ -11,6 +11,7 @@ expect.extend({ toMatchPath })
 // temporary directory
 const root = '_test'
 
+const defaultConfigPath = 'site.yaml';
 
 // setup and teardown
 beforeEach(async () => {
@@ -42,7 +43,7 @@ async function getSite() {
 }
 
 async function getKit(dryrun = true) {
-  if (!existsSync(join(root, 'site.yaml'))) await write('site.yaml', '')
+  if (!existsSync(join(root, defaultConfigPath))) await write(defaultConfigPath, '')
   return await createKit({ root, dryrun })
 }
 
@@ -67,8 +68,8 @@ title:   Hey
 
 `
 
-test('site.yaml', async () => {
-  await write('site.yaml', CONF)
+test(defaultConfigPath, async () => {
+  await write(defaultConfigPath, CONF)
   const site = await getSite()
 
   expect(site.globals).toEqual(['global'])
@@ -76,7 +77,20 @@ test('site.yaml', async () => {
   expect(site.port).toBe(1500)
 
   // teardown
-  await fs.rm(join(root, 'site.yaml'))
+  await fs.rm(join(root, defaultConfigPath))
+})
+
+test('alternative config path', async () => {
+  const alternativeConfigPath = 'nue.yaml'
+  await write(alternativeConfigPath, CONF)
+  const site = await getSite()
+
+  expect(site.globals).toEqual(['global'])
+  expect(site.dist).toMatchPath('_test/.mydist')
+  expect(site.port).toBe(1500)
+
+  // teardown
+  await fs.rm(join(root, alternativeConfigPath))
 })
 
 test('environment', async () => {
@@ -90,7 +104,7 @@ test('environment', async () => {
 
 
 test('page styles', async () => {
-  await write('site.yaml', 'globals: [globals]')
+  await write(defaultConfigPath, 'globals: [globals]')
 
   const site = await getSite()
   await write('globals/foo.css')
@@ -116,7 +130,7 @@ test('root styles', async () => {
 
 
 test('include/exclude data', async () => {
-  await write('site.yaml', 'include: [a]\nexclude: [a]')
+  await write(defaultConfigPath, 'include: [a]\nexclude: [a]')
   await write('blog/app.yaml', 'include: [b]\nexclude: [b]')
   await write('blog/index.md', '---\ninclude: [c]\n---\n')
   const kit = await getKit()
@@ -127,7 +141,7 @@ test('include/exclude data', async () => {
 })
 
 test('asset include/exclude', async () => {
-  await write('site.yaml', 'globals: [global]\nlibs: [lib, ext]\n')
+  await write(defaultConfigPath, 'globals: [global]\nlibs: [lib, ext]\n')
   await write('global/global.css')
   await write('global/kama.dhtml')
   await write('global/kama.css')
@@ -144,7 +158,7 @@ test('asset include/exclude', async () => {
 
 
 test('get data', async () => {
-  await write('site.yaml', 'foo: 1')
+  await write(defaultConfigPath, 'foo: 1')
 
   const site = await getSite()
   await write('some/app.yaml', 'bar: 1')
@@ -259,7 +273,7 @@ test('page layout', async () => {
     <aside>Aside</aside>
     <aside @name="beside">Beside</aside>
   `)
-  await write('site.yaml', 'aside: false')
+  await write(defaultConfigPath, 'aside: false')
   await write('index.md', '# Hey')
 
   const kit = await getKit()
@@ -316,7 +330,7 @@ test('line endings', async () => {
 })
 
 test('page assets', async () => {
-  await write('site.yaml', 'libs: [lib]')
+  await write(defaultConfigPath, 'libs: [lib]')
   await write('blog/app.yaml', 'include: [video]')
   await write('lib/video.dhtml')
   await write('blog/index.md', '# Hey')
@@ -379,7 +393,7 @@ test('JS errors', async () => {
 
 
 test('the project was started for the first time', async () => {
-  await write('site.yaml', 'port: 9090')
+  await write(defaultConfigPath, 'port: 9090')
   await write('globals/bar.css')
   await write('home.css')
   await write('index.md')

@@ -15,7 +15,7 @@ Commands
 Options
   -r or --root          Source directory. Default "." (current working dir)
   -p or --production    Build production version / Show production stats
-  -e or --environment   Read extra options to override defaults in site.yaml
+  -e or --environment   Read extra options to override defaults in nue.yaml / site.yaml
   -n or --dry-run       Show what would be built. Does not create outputs
   -b or --esbuild       Use esbuild as bundler. Please install it manually
   -P or --port          Port to serve the site on

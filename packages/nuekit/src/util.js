@@ -7,6 +7,8 @@ import { fileURLToPath } from 'node:url'
 
 export const srcdir = dirname(fileURLToPath(import.meta.url))
 
+export const configPaths = new Set(['site.yaml', 'nue.yaml'])
+
 export const openUrl = process.platform == 'darwin' ? 'open' : process.platform == 'win32' ? 'start' : 'xdg-open'
 
 // read from package.json
@@ -68,6 +70,14 @@ export function traverseDirsUp(dir) {
   dir = normalize(dir)
   const els = dir.split(sep)
   return els.map((el, i) => els.slice(0, i + 1).join(sep))
+}
+
+export function containsConfigFile(root) {
+  return configPaths.some(path => fs.existsSync(join(root, path)))
+}
+
+export function getConfigFile(root) {
+  return configPaths.values().find(path => fs.existsSync(join(root, path)))
 }
 
 export function getUrl(dir, name) {

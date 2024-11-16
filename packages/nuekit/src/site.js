@@ -12,6 +12,7 @@ import {
   joinRootPath,
   extendData,
   getAppDir,
+  getConfigFile,
   sortCSS,
   toPosix,
   log,
@@ -55,7 +56,7 @@ export async function createSite(args) {
 
 
   async function readOpts() {
-    const data = await readData('site.yaml') || {}
+    const data = await readData(getConfigFile(root)) || {}
 
     // environment
     try {

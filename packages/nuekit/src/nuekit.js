@@ -11,7 +11,7 @@ import { initNueDir } from './init.js'
 import { createSite } from './site.js'
 import { fswatch } from './nuefs.js'
 
-import { log, colors, getAppDir, parsePathParts, extendData } from './util.js'
+import { log, colors, configPaths, containsConfigFile, getAppDir, parsePathParts, extendData } from './util.js'
 import { renderPage, getSPALayout } from './layout/page.js'
 
 
@@ -33,8 +33,8 @@ export async function createKit(args) {
     await initNueDir({ dist, is_dev, esbuild, force })
   }
 
-  if (!existsSync(join(root, 'site.yaml'))) {
-    console.error('No site.yaml found. Please go to project root\n')
+  if (!containsConfigFile(root)) {
+    console.error('No nue.yaml / site.yaml found. Please go to project root\n')
     return false
   }
 
@@ -196,7 +196,7 @@ export async function createKit(args) {
 
 
     // global config reload first
-    if (is_dev && !is_bulk && path == 'site.yaml') {
+    if (is_dev && !is_bulk && configPaths.has(path)) {
       if (await site.update()) return { site_updated: true }
     }
 

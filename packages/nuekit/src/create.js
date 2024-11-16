@@ -2,7 +2,7 @@ import { execSync } from 'node:child_process'
 import { promises as fs, existsSync } from 'node:fs'
 import { join } from 'node:path'
 
-import { openUrl } from './util.js'
+import { configPaths, openUrl } from './util.js'
 import { createKit } from './nuekit.js'
 
 
@@ -30,7 +30,7 @@ export async function create({ root, name = 'simple-blog', port }) {
     const files = (await fs.readdir(root)).filter(f => !f.startsWith('.'))
 
     // already created -> serve
-    if (files.includes('site.yaml')) return serve(root)
+    if (files.some(path => configPaths.has(path))) return serve(root)
 
     // must be empty directory
     if (files.length) return console.error('Please create the template to an empty directory')
