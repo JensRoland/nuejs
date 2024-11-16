@@ -1,6 +1,6 @@
 /* misc stuff. think shame.css */
 
-import { promises as fs } from 'node:fs'
+import { promises as fs, existsSync } from 'node:fs'
 import { sep, parse, normalize, join, isAbsolute, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -73,11 +73,11 @@ export function traverseDirsUp(dir) {
 }
 
 export function containsConfigFile(root) {
-  return configPaths.some(path => fs.existsSync(join(root, path)))
+  return configPaths.some(path => existsSync(join(root, path)))
 }
 
 export function getConfigFile(root) {
-  return configPaths.values().find(path => fs.existsSync(join(root, path)))
+  return configPaths.values().find(path => existsSync(join(root, path)))
 }
 
 export function getUrl(dir, name) {

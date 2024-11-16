@@ -1,4 +1,4 @@
-import { promises as fs, existsSync } from 'node:fs'
+import { promises as fs } from 'node:fs'
 import { join, parse as parsePath } from 'node:path'
 
 import { parse as parseNue, compile as compileNue } from 'nuejs-core'
