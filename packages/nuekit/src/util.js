@@ -73,11 +73,15 @@ export function traverseDirsUp(dir) {
 }
 
 export function containsConfigFile(root) {
-  return configPaths.values().find(path => existsSync(join(root, path))) != undefined
+  return getConfigFile(root) != undefined
 }
 
 export function getConfigFile(root) {
-  return configPaths.values().find(path => existsSync(join(root, path)))
+  let configFile = undefined
+  configPaths.forEach(path => {
+    if (existsSync(join(root, path))) configFile = path
+  })
+  return configFile
 }
 
 export function getUrl(dir, name) {
