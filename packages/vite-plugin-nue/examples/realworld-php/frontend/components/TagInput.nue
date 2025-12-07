@@ -1,0 +1,53 @@
+<!--
+  TagInput - Interactive tag/chip input for article editor
+
+  Replaces the basic comma-separated text input with an interactive
+  chip-based UI that matches the Conduit design.
+-->
+
+<tag-input class="tag-input-wrapper">
+  <input
+    type="text"
+    class="form-control"
+    :value="input"
+    :onkeydown="handleKey($event)"
+    :oninput="input = $event.target.value"
+    placeholder="Enter tags"
+  >
+
+  <div class="tag-list" :if="tags.length">
+    <span :each="tag in tags" class="tag-default tag-pill">
+      <i class="ion-close-round" :onclick="remove(tag)"></i>
+      { tag }
+    </span>
+  </div>
+
+  <!-- Hidden input syncs tags for form submission -->
+  <input type="hidden" name="tags" :value="tags.join(',')">
+
+  <script>
+    this.input = ''
+    this.tags = this.tags || []
+
+    handleKey(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault()
+        this.add()
+      } else if (e.key === 'Backspace' && !this.input && this.tags.length) {
+        this.tags = this.tags.slice(0, -1)
+      }
+    }
+
+    add() {
+      const value = this.input.trim().toLowerCase()
+      if (value && !this.tags.includes(value)) {
+        this.tags = [...this.tags, value]
+        this.input = ''
+      }
+    }
+
+    remove(tag) {
+      this.tags = this.tags.filter(t => t !== tag)
+    }
+  </script>
+</tag-input>
