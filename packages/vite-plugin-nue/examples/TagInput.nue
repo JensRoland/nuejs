@@ -1,0 +1,63 @@
+<!--
+  TagInput - Interactive tag/chip input component
+
+  Usage in HTML:
+    <div nue="tag-input">
+      <input type="text" placeholder="Add tags...">
+    </div>
+    <script type="application/json">{"tags": ["javascript", "nue"]}</script>
+
+  The component will:
+  - Display existing tags as removable chips
+  - Add new tags on Enter key
+  - Remove tags on click or Backspace
+  - Sync to a hidden input for form submission
+-->
+
+<tag-input class="tag-input-wrapper">
+  <div class="tag-list">
+    <span :each="tag in tags" class="tag-chip">
+      { tag }
+      <button type="button" :onclick="remove(tag)" class="tag-remove">&times;</button>
+    </span>
+  </div>
+
+  <input
+    type="text"
+    :value="input"
+    :onkeydown="handleKey($event)"
+    :oninput="input = $event.target.value"
+    placeholder="{ placeholder || 'Add tag...' }"
+    class="tag-input-field"
+  >
+
+  <!-- Hidden input for form submission -->
+  <input type="hidden" :name="name || 'tags'" :value="tags.join(',')">
+
+  <script>
+    // Initialize from props or empty
+    this.input = ''
+    this.tags = this.tags || []
+
+    handleKey(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault()
+        this.add()
+      } else if (e.key === 'Backspace' && !this.input && this.tags.length) {
+        this.tags = this.tags.slice(0, -1)
+      }
+    }
+
+    add() {
+      const value = this.input.trim().toLowerCase()
+      if (value && !this.tags.includes(value)) {
+        this.tags = [...this.tags, value]
+        this.input = ''
+      }
+    }
+
+    remove(tag) {
+      this.tags = this.tags.filter(t => t !== tag)
+    }
+  </script>
+</tag-input>

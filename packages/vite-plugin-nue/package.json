@@ -1,0 +1,33 @@
+{
+  "name": "vite-plugin-nue",
+  "version": "0.1.0",
+  "description": "Vite plugin for compiling Nue.js components",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./mount": "./src/mount.js"
+  },
+  "repository": {
+    "url": "https://github.com/nuejs/nue",
+    "directory": "packages/vite-plugin-nue",
+    "type": "git"
+  },
+  "keywords": [
+    "vite",
+    "vite-plugin",
+    "nue",
+    "nuejs",
+    "components"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "vite": "^5.0.0 || ^6.0.0"
+  },
+  "dependencies": {
+    "nuedom": "^0.1.0"
+  },
+  "files": [
+    "src"
+  ]
+}
